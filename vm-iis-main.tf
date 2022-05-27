@@ -24,7 +24,7 @@ resource "random_string" "iis-vm-name" {
 
 # Create Security Group to access IIS Server
 resource "azurerm_network_security_group" "iis-vm-nsg" {
-  depends_on=[azurerm_resource_group.network-rg]
+  depends_on = [azurerm_resource_group.network-rg]
 
   name                = "iis-${random_string.iis-vm-name.result}-nsg"
   location            = azurerm_resource_group.network-rg.location
@@ -75,7 +75,7 @@ resource "azurerm_network_security_group" "iis-vm-nsg" {
 
 # Associate the Web NSG with the subnet
 resource "azurerm_subnet_network_security_group_association" "iis-vm-nsg-association" {
-  depends_on=[azurerm_resource_group.network-rg]
+  depends_on = [azurerm_resource_group.network-rg]
 
   subnet_id                 = azurerm_subnet.network-subnet.id
   network_security_group_id = azurerm_network_security_group.iis-vm-nsg.id
@@ -83,26 +83,26 @@ resource "azurerm_subnet_network_security_group_association" "iis-vm-nsg-associa
 
 # Get a Static Public IP
 resource "azurerm_public_ip" "iis-vm-ip" {
-  depends_on=[azurerm_resource_group.network-rg]
+  depends_on = [azurerm_resource_group.network-rg]
 
   name                = "iis-${random_string.iis-vm-name.result}-ip"
   location            = azurerm_resource_group.network-rg.location
   resource_group_name = azurerm_resource_group.network-rg.name
   allocation_method   = "Static"
-  
-  tags = { 
+
+  tags = {
     environment = var.environment
   }
 }
 
 # Create Network Card for IIS VM
 resource "azurerm_network_interface" "iis-private-nic" {
-  depends_on=[azurerm_resource_group.network-rg]
+  depends_on = [azurerm_resource_group.network-rg]
 
   name                = "iis-${random_string.iis-vm-name.result}-nic"
   location            = azurerm_resource_group.network-rg.location
   resource_group_name = azurerm_resource_group.network-rg.name
-  
+
   ip_configuration {
     name                          = "internal"
     subnet_id                     = azurerm_subnet.network-subnet.id
@@ -117,7 +117,7 @@ resource "azurerm_network_interface" "iis-private-nic" {
 
 # Create a Windows VM with IIS
 resource "azurerm_virtual_machine" "iis-vm" {
-  depends_on=[azurerm_network_interface.iis-private-nic]
+  depends_on = [azurerm_network_interface.iis-private-nic]
 
   location              = azurerm_resource_group.network-rg.location
   resource_group_name   = azurerm_resource_group.network-rg.name

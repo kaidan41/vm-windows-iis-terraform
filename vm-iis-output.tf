@@ -15,12 +15,12 @@ output "iis_vm_ip_address" {
 output "iis_vm_admin_username" {
   description = "Username password for the Virtual Machine"
   value       = azurerm_virtual_machine.iis-vm.os_profile.*
-  #sensitive   = true
+  sensitive   = true
 }
 
 output "iis_vm_admin_password" {
   description = "Administrator password for the Virtual Machine"
   value       = random_password.iis-vm-password.result
-  #sensitive   = true
+  sensitive   = true
 }
 

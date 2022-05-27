@@ -20,7 +20,7 @@ variable "iis_license_type" {
 variable "iis_delete_os_disk_on_termination" {
   type        = string
   description = "Should the OS Disk (either the Managed Disk / VHD Blob) be deleted when the Virtual Machine is destroyed?"
-  default     = "true"  # Update for your environment
+  default     = "true" # Update for your environment
 }
 
 variable "iis_delete_data_disks_on_termination" {
@@ -32,7 +32,7 @@ variable "iis_delete_data_disks_on_termination" {
 variable "iis_vm_image" {
   type        = map(string)
   description = "Virtual machine source image information"
-  default     = {
+  default = {
     publisher = "MicrosoftWindowsServer"
     offer     = "WindowsServer"
     sku       = "2019-Datacenter"
